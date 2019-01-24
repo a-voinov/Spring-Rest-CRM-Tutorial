@@ -1,6 +1,7 @@
 package com.tutorial.springdemo.rest;
 
 import com.tutorial.springdemo.entity.Customer;
+import com.tutorial.springdemo.exception.CustomerNotFoundException;
 import com.tutorial.springdemo.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,8 @@ public class CustomerRestController {
     @GetMapping("/customers/{customerId}")
     public Customer getCustomer(@PathVariable int customerId){
         Customer customer = customerService.getCustomer(customerId);
+        if (customer == null)
+            throw new CustomerNotFoundException("Customer id not found - " + customerId);
         return customer;
     }
 
